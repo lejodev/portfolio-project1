@@ -16,15 +16,16 @@ router.post("/create", (req, res) => {
 
   newUser
     .save()
-    .then((data) => console.log(data))
+    .then((data) => {
+      console.log(data);
+      res.status(200).json({ message: "user successfully created" });
+    })
     .catch((err) => {
       console.log("err", err);
     });
-  console.log(req.body);
-  res.send("List of services");
 });
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
       userName: req.body.userName,

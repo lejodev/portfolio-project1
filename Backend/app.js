@@ -16,7 +16,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }, () => {
 
 app.use(
   expressJWT({ secret: JWT_SECRET, algorithms: ["HS256"] }).unless({
-    path: ["/user/create", "/user/login"],
+    path: ['/user/create', '/user/login'],
   })
 );
 app.use(express.json());
