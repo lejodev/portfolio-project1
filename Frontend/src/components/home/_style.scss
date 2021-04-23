@@ -1,0 +1,31 @@
+.home {
+  .main {
+    width: 100vw;
+    height: 80vh;
+    background-color: #5cdb95;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    .options {
+      width: 70%;
+      height: 40%;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      .divider {
+        border-left: 5px solid #05386b;
+        height: 100%;
+        margin: 0 3rem 0 3rem;
+      }
+      .signIn,
+      .logIn {
+        font-size: 5rem;
+        cursor: pointer;
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}

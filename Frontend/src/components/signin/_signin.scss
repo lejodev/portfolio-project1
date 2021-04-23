@@ -1,0 +1,16 @@
+.signin {
+    color: #fff;
+    width: 100vw;
+    height: 80vh;
+    background-color: burlywood;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    justify-content: center;
+    .form {
+        .form-control {
+            display: flex;
+            flex-flow: column;
+        }
+    }
+}
