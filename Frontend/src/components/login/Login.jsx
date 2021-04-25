@@ -1,8 +1,10 @@
 import React from "react";
 import "./_login.scss";
 import { useForm } from "react-hook-form";
+import { Route } from "react-router-dom";
+import MotoServices from "../moto-services/MotoServices";
 
-const Login = () => {
+const Login = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data) => {
@@ -20,9 +22,17 @@ const Login = () => {
         body: JSON.stringify(BODY),
       });
 
-      const token = await request.json()
-      console.log(token.token)
-      console.log(request);
+      //   const resp = request
+
+      if (request.status === 200) {
+        const token = await request.json();
+        console.log(token.token);
+        console.log(request);
+        localStorage.setItem("token", token.token);
+        return props.history.push("/services");
+      } else {
+        alert("User doesn't exists");
+      }
     } catch (error) {
       console.log("error", error);
     }

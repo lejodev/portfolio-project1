@@ -2,4 +2,12 @@
     width: 100vw;
     height: 80vh;
     background-color: brown;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    .form-control {
+        display: flex;
+        flex-flow: column;
+    }
 }

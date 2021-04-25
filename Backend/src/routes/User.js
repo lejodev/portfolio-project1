@@ -32,7 +32,11 @@ router.post("/login", async (req, res) => {
       password: req.body.password,
     });
     if (user) {
-      const payload = user.toJSON();
+      console.log("userName", user.userName);
+      const payload = {
+        id: user._id,
+        userName: user.userName,
+      };
       console.log(user);
       const token = jwt.sign(payload, JWT_SECRET);
       res.status(200).json({ token: token });
