@@ -15,6 +15,31 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/available", (req, res) => {
+  motorcyclist
+    .find({ taken: false })
+    .then((resp) => {
+      res.status(201).json(resp);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: err });
+      console.log(err);
+    });
+});
+
+router.get("/select", (req, res) => {
+  motorcyclist
+    .findOne({ taken: false })
+    .then((resp) => {
+      resp != null
+        ? res.status(200).json({ id: resp._id })
+        : res.status(404).json({ message: "No available services now" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // router.post("/", (req, res) => {
 //   motorcyclist
 //     .insertMany([
@@ -35,7 +60,7 @@ router.get("/", (req, res) => {
 //     });
 // });
 
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     console.log(req.params.id);
     var obj = await motorcyclist.findById(req.params.id);
@@ -57,12 +82,12 @@ router.patch("/:id", async (req, res) => {
         { _id: req.params.id },
         { $set: { takenBy: req.body.userId, taken: !isTaken } }
       );
-      console.log(updatedMotoService);
+      console.log(req.body.userId);
       res.status(200).json(updatedMotoService);
     }
   } catch (err) {
     console.log("ERR", err);
-    res.status(400).json({ error: arr });
+    res.status(400).json({ error: err });
   }
 });
 module.exports = router;
