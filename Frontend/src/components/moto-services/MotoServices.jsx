@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./_moto-services.scss";
 import Service from "./serviceRow/Service";
+import { isExpired, decodeToken } from "react-jwt";
 
 const MotoServices = () => {
   const [available, setAvailable] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   let availableServices;
   useEffect(async () => {
-    const request = await fetch(
-      "http://localhost:3000/motorcyclist/available",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const resp  = await request.json()
-    setAvailable(resp.length != 0);
-    // console.log(resp.length);
-    // availableServices = resp.length != 0;
+    const currentToken = await localStorage.getItem("token");
+    const decodedToken = await decodeToken(currentToken);
+    setCurrentUser(decodedToken.id);
   }, []);
 
   const doRows = () => {
@@ -38,14 +30,18 @@ const MotoServices = () => {
         }`
       );
     }
-    console.log(rows);
     return rows;
   };
   return (
     <div className="moto-services">
       <div className="servicesContainer">
         {doRows().map((hour) => (
-          <Service key={hour} availability={available} hour={hour} selectedBy={""} />
+          <Service
+            key={hour}
+            hour={hour}
+            selectedBy={""}
+            currentUser={currentUser}
+          />
         ))}
       </div>
     </div>

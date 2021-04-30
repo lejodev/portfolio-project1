@@ -18,9 +18,8 @@ const Signin = () => {
         },
         body: JSON.stringify(BODY),
       })
-        .then((resp) => {
-          console.log(resp);
-        })
+        .then((resp) => resp.json())
+        .then(userID => console.log("USER", userID))// Tokenize this id
         .catch((err) => {
           console.log("ERR", err);
         });

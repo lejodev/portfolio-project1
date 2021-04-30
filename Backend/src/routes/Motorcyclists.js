@@ -15,7 +15,8 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/available", (req, res) => {
+router.get("/available/:token", (req, res) => {
+  const token = req.params.token;
   motorcyclist
     .find({ taken: false })
     .then((resp) => {
@@ -33,7 +34,7 @@ router.get("/select", (req, res) => {
     .then((resp) => {
       resp != null
         ? res.status(200).json({ id: resp._id })
-        : res.status(404).json({ message: "No available services now" });
+        : res.status(204).json({ message: "No available services now" });
     })
     .catch((err) => {
       console.log(err);
@@ -43,14 +44,14 @@ router.get("/select", (req, res) => {
 // router.post("/", (req, res) => {
 //   motorcyclist
 //     .insertMany([
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
-//       { taken: false, takenBy: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
+//       { taken: false, takenBy: null, takenIn: null },
 //     ])
 //     .then((data) => {
 //       console.log("Valid", data);
@@ -59,6 +60,13 @@ router.get("/select", (req, res) => {
 //       console.log("Invalid", err);
 //     });
 // });
+
+router.get("/serviceStatus/:rowKey", (req, res) => {
+  motorcyclist.find({ takenIn: req.params.rowKey }).then((resp) => {
+    res.status(200).json(resp);
+    console.log("taken in row" + resp);
+  });
+});
 
 router.put("/:id", async (req, res) => {
   try {
@@ -72,7 +80,7 @@ router.put("/:id", async (req, res) => {
     if (isTaken) {
       updatedMotoService = await motorcyclist.updateOne(
         { _id: req.params.id },
-        { $set: { taken: !isTaken, takenBy: null } }
+        { $set: { taken: !isTaken, takenBy: null, takenIn: null } }
       );
       res.status(200).json(updatedMotoService);
 
@@ -80,7 +88,13 @@ router.put("/:id", async (req, res) => {
     } else {
       updatedMotoService = await motorcyclist.updateOne(
         { _id: req.params.id },
-        { $set: { takenBy: req.body.userId, taken: !isTaken } }
+        {
+          $set: {
+            takenBy: req.body.userId,
+            taken: !isTaken,
+            takenIn: req.body.rowKey,
+          },
+        }
       );
       console.log(req.body.userId);
       res.status(200).json(updatedMotoService);

@@ -1,8 +1,21 @@
+.row {
+  cursor: pointer;
+}
 .service {
   background-color: crimson;
   h1 {
     margin: 0 0 20px 0;
   }
+  &:hover {
+    background-color: #fff;
+  }
+}
+.taken {
+  background-color: green;
+}
+
+.takenByMe {
+  background-color: aqua;
   &:hover {
     background-color: #fff;
   }
