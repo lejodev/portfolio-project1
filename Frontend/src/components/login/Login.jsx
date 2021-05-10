@@ -1,6 +1,7 @@
 import React from "react";
 import "./_login.scss";
 import { useForm } from "react-hook-form";
+import { Button, Form } from "react-bootstrap";
 import { Route } from "react-router-dom";
 import MotoServices from "../moto-services/MotoServices";
 
@@ -39,9 +40,10 @@ const Login = (props) => {
   };
   return (
     <div className="login">
+      <div className="container">
       <h1>LogIn</h1>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-control">
+        <form action="" className="form" onSubmit={handleSubmit(onSubmit)}>
+          {/* <div className="form-control">
           <label htmlFor="userName">Username</label>
           <input
             type="text"
@@ -58,9 +60,32 @@ const Login = (props) => {
             id="password"
             {...register("password", { required: true })}
           />
-        </div>
-        <input type="submit" value="LogIn" />
-      </form>
+        </div> */}
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
+              placeholder="User name"
+              type="text"
+              // id="username"
+              name="username"
+              {...register("username", { required: true })}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              placeholder="Pasword"
+              type="password"
+              name="password"
+              // id="password"
+              {...register("password", { required: true })}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Log in
+          </Button>
+          {/* <input type="submit" value="LogIn" /> */}
+        </form>
+      </div>
     </div>
   );
 };

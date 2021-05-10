@@ -1,24 +1,18 @@
 import React from "react";
 import "./_header.scss";
-import { Link, Router } from "react-router-dom";
+import {
+  Link,
+  BrowserRouter as Router,
+  browserHistory,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 const Header = (props) => {
-  const handleClick = () => {
-    try {
-      return props.history.push("/");
-    } catch (error) {
-      console.error(error);
-      alert("Error", error);
-    }
-  };
-
   return (
-    <header className="header" onClick={handleClick}>
+    <header className="header">
       <nav>
-        {/* <Router> */}
-        {/* <Link to="/signin">Moto services</Link> */}
-        {/* </Router> */}
-        Moto services
+        <Link to="/" className="link">DELIVERY SERVICES</Link>
       </nav>
     </header>
   );

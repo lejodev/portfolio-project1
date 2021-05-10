@@ -112,10 +112,10 @@ const Service = (props) => {
 
   return (
     <div
-      className={`${taken ? (takenByMe ? "takenByMe" : "taken") : "service"}`}
+      className={`row ${taken ? (takenByMe ? "takenByMe" : "taken") : "service"}`}
       onClick={handleClick}
     >
-      <h1>{props.hour}</h1>
+      <div>{props.hour}</div>
     </div>
   );
 };

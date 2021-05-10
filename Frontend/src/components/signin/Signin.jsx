@@ -1,28 +1,30 @@
 import React from "react";
 import "./_signin.scss";
 import { useForm } from "react-hook-form";
+import { Form, Button } from "react-bootstrap";
 
-const Signin = () => {
+const Signin = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data) => {
+    console.table(data);
     if (data.password === data.repeatPassword) {
       const BODY = {
         userName: data.username,
         password: data.password,
       };
-      fetch("http://localhost:3000/user/create", {
+      const request = await fetch("http://localhost:3000/user/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(BODY),
-      })
-        .then((resp) => resp.json())
-        .then(userID => console.log("USER", userID))// Tokenize this id
-        .catch((err) => {
-          console.log("ERR", err);
-        });
+      });
+      if (request.status == 200) {
+        return props.history.push("/login");
+      } else {
+        alert("Error while creating your user");
+      }
     } else {
       alert("Passwrods doesn't match");
     }
@@ -30,9 +32,39 @@ const Signin = () => {
 
   return (
     <div className="signin">
-      <h1>SignIn</h1>
-      <form className="form" action="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-control">
+      <div className="container">
+        <h1>SignIn</h1>
+        <form className="form" action="" onSubmit={handleSubmit(onSubmit)}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
+              type="text"
+              name="username"
+              placeholder="Username"
+              {...register("username", { required: true })}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              type="password"
+              name="password"
+              {...register("password", { required: true })}
+              placeholder="Password"
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              type="password"
+              name="password"
+              {...register("repeatPassword", { required: true })}
+              placeholder="Repeat password"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Sign in
+          </Button>
+          {/* <div className="form-control">
           <label htmlFor="username">UserName</label>
           <input
             type="text"
@@ -58,9 +90,10 @@ const Signin = () => {
             id="repeat-password"
             {...register("repeatPassword", { required: true })}
           />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+        </div> */}
+          {/* <button type="submit">Submit</button> */}
+        </form>
+      </div>
     </div>
   );
 };

@@ -6,12 +6,13 @@ import Login from "./components/login/Login";
 import Signin from "./components/signin/Signin";
 import MotoServices from "./components/moto-services/MotoServices";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <>
-      <Header />
       <Router>
+        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/signin" component={Signin} />

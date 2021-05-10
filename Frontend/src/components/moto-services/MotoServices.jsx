@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./_moto-services.scss";
 import Service from "./serviceRow/Service";
+import { Button } from "react-bootstrap";
 import { isExpired, decodeToken } from "react-jwt";
 
-const MotoServices = () => {
+const MotoServices = (props) => {
   const [available, setAvailable] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   let availableServices;
@@ -12,6 +13,11 @@ const MotoServices = () => {
     const decodedToken = await decodeToken(currentToken);
     setCurrentUser(decodedToken.id);
   }, []);
+
+  const logout = () => {
+    localStorage.setItem("token", null);
+    return props.history.push("/");
+  };
 
   const doRows = () => {
     let rows = [];
@@ -35,6 +41,7 @@ const MotoServices = () => {
   return (
     <div className="moto-services">
       <div className="servicesContainer">
+        <Button onClick={logout} className="logoutBtn">Logout</Button>
         {doRows().map((hour) => (
           <Service
             key={hour}

@@ -7,12 +7,12 @@ const Home = () => {
     <div className="home">
       <main className="main">
         <div className="options">
-          <Link to="/signin">
-            <div className="signIn">signIn</div>
+          <Link className="signIn" to="/signin">
+            signIn
           </Link>
           <div className="divider"></div>
-          <Link to="/login">
-            <div className="logIn">logIn</div>
+          <Link className="logIn" to="/login">
+            logIn
           </Link>
         </div>
       </main>
